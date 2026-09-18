@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InternHub — First-Week Onboarding Workspace</title>
+  <meta name="description" content="A digital onboarding tool for first-time interns with daily workflows, completed work examples, contacts, mentor check-ins, and built-in usability testing feedback collection.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-light">
+  <!-- Toast notification container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- APP SHELL: SIDEBAR + MAIN WORKSPACE -->
+  <div class="app-shell">
+
+    <!-- ==================== LEFT SIDEBAR NAVIGATION ==================== -->
+    <aside class="app-sidebar" aria-label="Sidebar Navigation">
+      
+      <!-- Brand & Workspace -->
+      <div class="sidebar-header">
+        <div class="logo-group">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <span class="logo-title">Intern<span class="logo-highlight">Hub</span></span>
+            <span class="logo-subtitle">Acme Corp Onboarding</span>
+          </div>
+        </div>
+
+        <!-- Role Badge -->
+        <div class="user-role-badge">
+          <div class="user-avatar-mini">AR</div>
+          <div class="user-meta-mini">
+            <span class="user-name-mini">Alex Rivera</span>
+            <span class="user-pos-mini">Software Intern</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">WORKSPACE</div>
+        <button class="side-nav-btn active" data-section="all">
+          <span class="side-icon">🎛️</span>
+          <span>Overview Dashboard</span>
+        </button>
+        <button class="side-nav-btn" data-section="checklist">
+          <span class="side-icon">📋</span>
+          <span>Daily Checklist</span>
+          <span class="side-badge" id="side-task-badge">1/3</span>
+        </button>
+        <button class="side-nav-btn" data-section="examples">
+          <span class="side-icon">📂</span>
+          <span>Completed Examples</span>
+          <span class="side-pill">Core</span>
+        </button>
+        <button class="side-nav-btn" data-section="contacts">
+          <span class="side-icon">👥</span>
+          <span>Who to Approach</span>
+        </button>
+        <button class="side-nav-btn" data-section="mentor">
+          <span class="side-icon">📅</span>
+          <span>Mentor Syncs</span>
+        </button>
+        <button class="side-nav-btn" data-section="assistant">
+          <span class="side-icon">🤖</span>
+          <span>Ask Assistant</span>
+        </button>
+      </nav>
+
+      <!-- Progress Summary Widget -->
+      <div class="sidebar-progress-widget">
+        <div class="sp-header">
+          <span>First-Week Progress</span>
+          <strong id="side-progress-val">33%</strong>
+        </div>
+        <div class="sp-track">
+          <div id="side-progress-fill" class="sp-fill" style="width: 33%;"></div>
+        </div>
+        <div class="sp-meta">Day 1 of 30 • Cohort 2026</div>
+      </div>
+
+      <!-- Bottom Controls: Manager Mode Switcher & Theme -->
+      <div class="sidebar-footer">
+        
+        <!-- Mode Switcher (Intern vs Manager) -->
+        <div class="mode-switch-box">
+          <div class="mode-labels">
+            <span class="mode-title">Active Mode:</span>
+            <span class="mode-indicator" id="mode-text">Intern View</span>
+          </div>
+          <button id="btn-toggle-mode" class="mode-toggle-btn" title="Switch between Intern View and Manager Editor Mode">
+            <span class="mode-icon">⚙️</span>
+            <span id="btn-mode-text">Switch to Manager Mode</span>
+          </button>
+        </div>
+
+        <div class="sidebar-utility-row">
+          <button id="btn-theme-toggle" class="icon-btn-sm" title="Toggle Theme" aria-label="Toggle theme">
+            <svg id="theme-sun-icon" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg id="theme-moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <button id="btn-view-doc" class="text-link-btn" title="View Design Thinking & SCAMPER Case Study Report">
+            📄 Project Report
+          </button>
+        </div>
+
+      </div>
+
+    </aside>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <div class="app-main-viewport">
+      
+      <!-- Top Manager Notice Banner (Hidden in Intern Mode, Visible in Manager Mode) -->
+      <div id="manager-bar" class="manager-admin-bar hidden">
+        <div class="m-bar-left">
+          <span class="m-badge">⚙️ Manager / Editor Mode Active</span>
+          <span class="m-subtext">You have creator permissions to add new tasks, completed work benchmarks, team contacts, and view tester feedback.</span>
+        </div>
+        <div class="m-bar-actions">
+          <button id="btn-quick-add-task" class="btn-manager-action">+ Add New Task</button>
+          <button id="btn-quick-add-example" class="btn-manager-action">+ Add Completed Example</button>
+          <button id="btn-quick-add-contact" class="btn-manager-action">+ Add Contact</button>
+          <button id="btn-view-feedback-log" class="btn-manager-action btn-gold">📊 View Tester Feedback (<span id="feedback-count-badge">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- Welcome Top Header with Give Feedback CTA -->
+      <header class="workspace-top-bar">
+        <div>
+          <h1 class="page-title" id="page-greeting">Welcome to Acme Corp, Alex! 👋</h1>
+          <p class="page-subtitle">Core Product Team • First-Week Onboarding Navigator</p>
+        </div>
+
+        <div class="top-bar-right-group">
+          <!-- Give Feedback Button for Friends / Testers -->
+          <button id="btn-open-feedback" class="feedback-cta-btn" title="Submit usability feedback as a tester">
+            <span class="pulse-ring"></span>
+            💬 Give Feedback
+          </button>
+
+          <div class="quick-status-chip">
+            <span class="status-pulse-dot"></span>
+            <span>Day 1 of 30 Active</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT SECTIONS WRAPPER -->
+      <div class="content-sections-container">
+
+        <!-- ==================== FEATURE 1: CHECKLIST ==================== -->
+        <section id="section-checklist" class="workspace-card">
+          <div class="card-head-row">
+            <div>
+              <div class="card-badge-line">
+                <span class="feature-tag">Daily Progression</span>
+                <span class="feature-tag-light">Day 1 / Day 3 / Week 2</span>
+              </div>
+              <h2 class="section-title">First-Week Tasks & Responsibilities</h2>
+              <p class="section-desc">Clear, phased milestones. Tasks are revealed progressively to avoid information overload.</p>
+            </div>
+
+            <!-- Phase Selector Tabs + Manager Add Button -->
+            <div class="head-controls-group">
+              <div class="phase-selector">
+                <button class="phase-btn active" data-phase="day1">Day 1 (Active)</button>
+                <button class="phase-btn" data-phase="day3">Day 3 (Locked)</button>
+                <button class="phase-btn" data-phase="week2">Week 2 (Upcoming)</button>
+              </div>
+              <button id="btn-add-task-inline" class="btn-creator-inline hidden" title="Add task to this list">+ Add Task</button>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="checklist-progress-box">
+            <div class="c-prog-labels">
+              <span id="checklist-count-label">1 of 3 Tasks Completed</span>
+              <span id="checklist-percent-label">33%</span>
+            </div>
+            <div class="c-prog-track">
+              <div id="checklist-progress-bar" class="c-prog-fill" style="width: 33%;"></div>
+            </div>
+          </div>
+
+          <!-- Tasks List: Day 1 -->
+          <div class="tasks-group" id="tasks-day1">
+            <label class="task-row completed" data-task-id="1">
+              <input type="checkbox" checked class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Set up 2FA, Google Workspace & Team Slack</span>
+                <span class="task-meta-text">⏱️ Est: 20 min • <span class="tag-owner tag-it">Owner: Rohan (IT)</span></span>
+              </div>
+              <span class="task-badge-state">Done ✓</span>
+            </label>
+
+            <label class="task-row" data-task-id="2">
+              <input type="checkbox" class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Inspect the 3 Completed Work Examples in the Library below</span>
+                <span class="task-meta-text">⏱️ Est: 15 min • <span class="tag-owner tag-lead">Owner: Sarah (Task Lead)</span></span>
+              </div>
+              <span class="task-badge-state">To Do</span>
+            </label>
+
+            <label class="task-row" data-task-id="3">
+              <input type="checkbox" class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Prepare questions for your 4:30 PM Welcome Sync with Jordan</span>
+                <span class="task-meta-text">⏱️ Est: 10 min • <span class="tag-owner tag-mentor">Owner: Jordan (Mentor)</span></span>
+              </div>
+              <span class="task-badge-state">To Do</span>
+            </label>
+          </div>
+
+          <!-- Tasks List: Day 3 Preview -->
+          <div class="tasks-group hidden" id="tasks-day3">
+            <div class="locked-callout">
+              🔒 <strong>Unlocks on Day 3:</strong> Focus on Day 1 setup first. Preview upcoming tasks:
+            </div>
+            <div class="task-row disabled">
+              <input type="checkbox" disabled class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Clone Acme Core Repository & configure local environment</span>
+                <span class="task-meta-text">⏱️ Est: 45 min • <span class="tag-owner tag-it">Owner: Rohan</span></span>
+              </div>
+            </div>
+            <div class="task-row disabled">
+              <input type="checkbox" disabled class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Submit your first draft task report using the benchmark template</span>
+                <span class="task-meta-text">⏱️ Est: 30 min • <span class="tag-owner tag-lead">Owner: Sarah</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tasks List: Week 2 Preview -->
+          <div class="tasks-group hidden" id="tasks-week2">
+            <div class="locked-callout">
+              🔒 <strong>Unlocks in Week 2:</strong> Independent project execution phase.
+            </div>
+            <div class="task-row disabled">
+              <input type="checkbox" disabled class="task-checkbox">
+              <div class="task-info-block">
+                <span class="task-title-text">Ship your first feature pull request & participate in Sprint Retrospective</span>
+                <span class="task-meta-text">Milestone • <span class="tag-owner tag-lead">Owner: Sarah</span></span>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==================== FEATURE 2: COMPLETED WORK LIBRARY ==================== -->
+        <section id="section-examples" class="workspace-card highlight-border">
+          <div class="card-head-row">
+            <div>
+              <div class="card-badge-line">
+                <span class="feature-tag tag-green">Most Valuable Resource</span>
+                <span class="feature-tag-light">Benchmark Standards</span>
+              </div>
+              <h2 class="section-title">Library of Past Completed Work</h2>
+              <p class="section-desc">Examine verified deliverables from past interns to understand what the final output should look like before you begin.</p>
+            </div>
+
+            <!-- Example Filter Tabs + Manager Add Button -->
+            <div class="head-controls-group">
+              <div class="example-pills" id="example-tabs-container">
+                <button class="ex-pill active" data-ex="report">Weekly Report</button>
+                <button class="ex-pill" data-ex="spec">Feature / Process Spec</button>
+                <button class="ex-pill" data-ex="tracker">Task Tracker Sheet</button>
+              </div>
+              <button id="btn-add-example-inline" class="btn-creator-inline hidden" title="Add a new benchmark example to library">+ Add Example</button>
+            </div>
+          </div>
+
+          <!-- Benchmark Display Panel -->
+          <div class="benchmark-panel" id="benchmark-panel">
+            <div class="bm-panel-header">
+              <div>
+                <h3 class="bm-sample-name" id="bm-title">Weekly Task Progress Report (Sample from Previous Intern)</h3>
+                <span class="bm-verified-tag">✓ Verified Company Standard</span>
+              </div>
+              <div class="bm-lead-sign" id="bm-owner">
+                Signoff by: <strong>Sarah Jenkins (Task Lead)</strong>
+              </div>
+            </div>
+
+            <div class="bm-details-box" id="bm-details">
+              <div class="bm-detail-row">
+                <span class="bmd-label">Standard File Name:</span>
+                <code id="bm-filename">2026_W03_Intern_Task_Report_Final.pdf</code>
+              </div>
+              <div class="bm-detail-row">
+                <span class="bmd-label">Required Structure:</span>
+                <span id="bm-structure">1. Summary of Completed Tasks • 2. Blockers Encountered • 3. Next Week Priorities</span>
+              </div>
+              <div class="bm-detail-row">
+                <span class="bmd-label">Why This Met Standards:</span>
+                <span id="bm-why">Clear bullet points, links to all raw files in Google Drive, and proactive escalation of blockers.</span>
+              </div>
+              <div class="bm-tip-bubble" id="bm-tip">
+                💡 <strong>Intern Tip:</strong> Always save your draft in the <code>/Team_Shared/Drafts/</code> Google Drive folder and notify your lead via WhatsApp for quick initial feedback!
+              </div>
+            </div>
+
+            <div class="bm-action-row">
+              <button class="primary-btn" onclick="alert('Simulated: Downloading blank template (Docx/Spreadsheet)!')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Blank Template
+              </button>
+              <button class="secondary-btn" onclick="alert('Simulated: Opening full annotated example in Google Drive!')">
+                Open Full Example in Drive
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2-COL ROW: CONTACTS + MENTOR SYNCS -->
+        <div class="two-col-row">
+          
+          <!-- ==================== FEATURE 3: CONTACTS ==================== -->
+          <section id="section-contacts" class="workspace-card">
+            <div class="card-head-row">
+              <div>
+                <span class="feature-tag">Responsibility Mapping</span>
+                <h2 class="section-title">Who to Approach Directory</h2>
+                <p class="section-desc">Tagged by specific issue so you know who owns what.</p>
+              </div>
+              <button id="btn-add-contact-inline" class="btn-creator-inline hidden" title="Add a team member">+ Add Contact</button>
+            </div>
+
+            <div class="contacts-grid" id="contacts-container">
+              
+              <div class="contact-card">
+                <div class="c-av av-sarah">SJ</div>
+                <div class="c-info">
+                  <div class="c-name">Sarah Jenkins</div>
+                  <div class="c-role">Engineering Lead • Core Product</div>
+                  <div class="c-duty">Approach for: <strong>Daily Tasks & Final Approval</strong></div>
+                </div>
+                <button class="c-ping-btn" onclick="alert('Simulated: Opening Slack DM with Sarah')">Slack</button>
+              </div>
+
+              <div class="contact-card">
+                <div class="c-av av-rohan">RM</div>
+                <div class="c-info">
+                  <div class="c-name">Rohan Mehta</div>
+                  <div class="c-role">DevOps & IT Admin</div>
+                  <div class="c-duty">Approach for: <strong>GitHub Permissions, Tool Access</strong></div>
+                </div>
+                <button class="c-ping-btn" onclick="alert('Simulated: Opening Slack DM with Rohan')">Slack</button>
+              </div>
+
+              <div class="contact-card mentor-glow">
+                <div class="c-av av-jordan">JR</div>
+                <div class="c-info">
+                  <div class="c-name">Jordan Rivera <span class="mentor-badge-pill">Your Mentor</span></div>
+                  <div class="c-role">Senior Engineer • 3 yrs at Acme</div>
+                  <div class="c-duty text-purple">Approach for: <strong>Workflow Guidance, Any Questions</strong></div>
+                </div>
+                <button class="c-ping-btn" onclick="alert('Simulated: Opening Slack DM with Jordan')">Slack</button>
+              </div>
+
+              <div class="contact-card">
+                <div class="c-av av-priya">PS</div>
+                <div class="c-info">
+                  <div class="c-name">Priya Sharma</div>
+                  <div class="c-role">People Operations & HR</div>
+                  <div class="c-duty">Approach for: <strong>Stipend, Attendance, Leaves</strong></div>
+                </div>
+                <button class="c-ping-btn" onclick="alert('Simulated: Emailing HR')">Email</button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ==================== FEATURE 4: MENTOR CHECK-INS ==================== -->
+          <section id="section-mentor" class="workspace-card">
+            <div class="card-head-row">
+              <div>
+                <span class="feature-tag">Flipped Touchpoints</span>
+                <h2 class="section-title">Mentor Check-In Schedule</h2>
+                <p class="section-desc">You don't need to chase people. Mentors are prompted to reach out.</p>
+              </div>
+            </div>
+
+            <div class="syncs-timeline">
+              <div class="sync-card active-sync">
+                <div class="sync-top">
+                  <span class="sync-time-badge active">Today @ 4:30 PM</span>
+                  <span class="sync-owner-prompt">Jordan will reach out</span>
+                </div>
+                <h3 class="sync-title">Day 1 Welcome & Environment Check</h3>
+                <p class="sync-desc">Informal 15-min call to verify tool logins, repo setup, and answer initial questions.</p>
+                <button class="secondary-btn btn-xs" onclick="alert('Simulated: Added private note: Git and Slack configured, ready to review first tasks.')">Add Private Note</button>
+              </div>
+
+              <div class="sync-card">
+                <div class="sync-top">
+                  <span class="sync-time-badge">Day 3 (Thursday @ 11:00 AM)</span>
+                  <span class="sync-owner-prompt">Auto-Scheduled</span>
+                </div>
+                <h3 class="sync-title">Day 3 Blocker Check & Workflow Review</h3>
+                <p class="sync-desc">Review your draft weekly report and resolve any conflicting instructions.</p>
+              </div>
+
+              <div class="sync-card">
+                <div class="sync-top">
+                  <span class="sync-time-badge">Week 1 (Friday @ 3:30 PM)</span>
+                  <span class="sync-owner-prompt">Auto-Scheduled</span>
+                </div>
+                <h3 class="sync-title">Week 1 Retrospective & Next Sprint Goals</h3>
+                <p class="sync-desc">Celebrate first-week wins and map out your Week 2 independent project.</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ==================== FEATURE 5: AI CHAT ASSISTANT ==================== -->
+        <section id="section-assistant" class="workspace-card assistant-card">
+          <div class="card-head-row">
+            <div>
+              <div class="card-badge-line">
+                <span class="feature-tag tag-ai">Private & Zero-Judgment</span>
+                <span class="feature-tag-light">Scoped Knowledge Base</span>
+              </div>
+              <h2 class="section-title">Ask Assistant (Instant Procedural Answers)</h2>
+              <p class="section-desc">Hesitant to ask an "obvious" question or confused by conflicting advice? Ask here privately anytime.</p>
+            </div>
+          </div>
+
+          <!-- Chat Window -->
+          <div class="assistant-chat-stream" id="chat-stream">
+            <div class="chat-msg ai">
+              <div class="msg-avatar">🤖</div>
+              <div class="msg-bubble">
+                Hi Alex! I'm your private onboarding assistant. Ask me anything about file locations, naming rules, standup etiquette, or what to do if you get conflicting advice.
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Chips -->
+          <div class="assistant-chips-bar">
+            <button class="chip-item" data-q="conflicting instructions">Conflicting instructions?</button>
+            <button class="chip-item" data-q="where are files stored">Where are files stored?</button>
+            <button class="chip-item" data-q="file naming">File naming rules?</button>
+            <button class="chip-item" data-q="standup format">Standup format?</button>
+            <button class="chip-item" data-q="obvious question">Can I ask obvious questions?</button>
+          </div>
+
+          <!-- Input Form -->
+          <form id="assistant-form" class="assistant-form-bar">
+            <input type="text" id="assistant-input-field" class="assistant-input-field" placeholder="Ask any question without hesitation..." required>
+            <button type="submit" class="primary-btn btn-send-assistant">
+              <span>Send</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </form>
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==================== MODAL: GIVE TESTER FEEDBACK (FOR FRIENDS) ==================== -->
+  <div id="modal-feedback" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>💬 Usability Test Feedback (Tester Mode)</h3>
+        <button class="modal-close" data-modal="modal-feedback">&times;</button>
+      </div>
+      <form id="form-tester-feedback">
+        <div class="modal-body">
+          <p class="modal-sub">Thank you for testing InternHub! Your honest feedback will directly improve the tool for first-time interns.</p>
+          
+          <div class="form-field">
+            <label for="tester-name">Your Name / Role:</label>
+            <input type="text" id="tester-name" class="form-control" placeholder="e.g. Priyanshu / Final Year Student" required>
+          </div>
+
+          <div class="form-field">
+            <label for="tester-rating">How confident would this tool make you feel during Week 1?</label>
+            <select id="tester-rating" class="form-control">
+              <option value="5">⭐⭐⭐⭐⭐ 5/5 — Extremely confident</option>
+              <option value="4">⭐⭐⭐⭐ 4/5 — Very confident</option>
+              <option value="3">⭐⭐⭐ 3/5 — Moderately confident</option>
+              <option value="2">⭐⭐ 2/5 — Slightly confident</option>
+              <option value="1">⭐ 1/5 — Not confident</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="tester-favorite">Which feature was most useful to you?</label>
+            <select id="tester-favorite" class="form-control">
+              <option value="Completed Work Library">📂 Completed Work & Benchmark Library</option>
+              <option value="Progressive Checklist">📋 Progressive Daily Checklist</option>
+              <option value="Who to Approach Directory">👥 Who to Approach Directory</option>
+              <option value="Mentor Check-In Schedule">📅 Auto-Scheduled Mentor Syncs</option>
+              <option value="AI Assistant">🤖 Scoped AI Chat Assistant</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="tester-like">What worked really well? (Likes +):</label>
+            <textarea id="tester-like" class="form-control text-area" rows="2" placeholder="e.g. Seeing the exact file format and sample report was super helpful..." required></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="tester-wish">What was confusing or could be improved? (Wishes Δ):</label>
+            <textarea id="tester-wish" class="form-control text-area" rows="2" placeholder="e.g. I wish there was a search bar inside the completed work library..." required></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="secondary-btn" data-modal="modal-feedback">Cancel</button>
+          <button type="submit" class="primary-btn">Submit Feedback 🎉</button>
+        </div>
+      </form>
+
+      <!-- Post-Submission Success & Remote Sharing Screen -->
+      <div id="feedback-success-state" class="hidden feedback-success-card">
+        <div class="success-icon-big">🎉</div>
+        <h4 id="fb-success-name">Feedback Recorded!</h4>
+        <p>Your feedback is saved in the prototype. If you're testing this remotely, please send your review directly to your friend so they can include it in their Design Thinking Stage 5 report:</p>
+        
+        <div id="fb-preview-content" class="fb-preview-box"></div>
+
+        <div class="fb-share-actions">
+          <button id="btn-share-whatsapp" class="btn-whatsapp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+            </svg>
+            Send via WhatsApp
+          </button>
+          <button id="btn-copy-review" class="secondary-btn">📋 Copy Review Text</button>
+          <button id="btn-done-feedback" class="primary-btn">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: TESTER FEEDBACK LOG (FOR CREATOR) ==================== -->
+  <div id="modal-feedback-log" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window modal-wide">
+      <div class="modal-header">
+        <h3>📊 Collected Tester Feedback Log</h3>
+        <button class="modal-close" data-modal="modal-feedback-log">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="feedback-log-top">
+          <span class="fl-subtitle">Real feedback submitted by friends and test participants:</span>
+          <button id="btn-export-feedback" class="secondary-btn btn-sm">📋 Copy as Markdown</button>
+        </div>
+        <div class="feedback-cards-container" id="feedback-cards-container">
+          <!-- Dynamically populated or empty state -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="secondary-btn" data-modal="modal-feedback-log">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 1: MANAGER ADD TASK ==================== -->
+  <div id="modal-add-task" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>➕ Add Onboarding Task (Manager Creator)</h3>
+        <button class="modal-close" data-modal="modal-add-task">&times;</button>
+      </div>
+      <form id="form-create-task">
+        <div class="modal-body">
+          <div class="form-field">
+            <label for="new-task-title">Task Title / Responsibility:</label>
+            <input type="text" id="new-task-title" class="form-control" placeholder="e.g. Set up local database credentials" required>
+          </div>
+          <div class="form-field">
+            <label for="new-task-phase">Reveal Phase:</label>
+            <select id="new-task-phase" class="form-control">
+              <option value="day1">Day 1 (Active)</option>
+              <option value="day3">Day 3 (Locked)</option>
+              <option value="week2">Week 2 (Upcoming)</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="new-task-owner">Task Owner / Approver:</label>
+            <input type="text" id="new-task-owner" class="form-control" placeholder="e.g. Sarah Jenkins (Task Lead)" required>
+          </div>
+          <div class="form-field">
+            <label for="new-task-time">Estimated Time:</label>
+            <input type="text" id="new-task-time" class="form-control" placeholder="e.g. 25 min" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="secondary-btn" data-modal="modal-add-task">Cancel</button>
+          <button type="submit" class="primary-btn">Save Task to Prototype</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: MANAGER ADD EXAMPLE ==================== -->
+  <div id="modal-add-example" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>➕ Add Benchmark Example (Manager Creator)</h3>
+        <button class="modal-close" data-modal="modal-add-example">&times;</button>
+      </div>
+      <form id="form-create-example">
+        <div class="modal-body">
+          <div class="form-field">
+            <label for="new-ex-id">Short ID (key):</label>
+            <input type="text" id="new-ex-id" class="form-control" placeholder="e.g. slides" required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-label">Tab Button Label:</label>
+            <input type="text" id="new-ex-label" class="form-control" placeholder="e.g. Sprint Slide Deck" required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-title">Deliverable Title:</label>
+            <input type="text" id="new-ex-title" class="form-control" placeholder="e.g. Sprint Review Presentation (Sample Template)" required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-filename">Standard File Name:</label>
+            <input type="text" id="new-ex-filename" class="form-control" placeholder="e.g. 2026_Sprint01_Demo_Slides.pptx" required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-structure">Required Structure:</label>
+            <input type="text" id="new-ex-structure" class="form-control" placeholder="e.g. 1. Goal • 2. Demo Video • 3. Key Metrics • 4. Q&A" required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-why">Why This Meets Standards:</label>
+            <input type="text" id="new-ex-why" class="form-control" placeholder="e.g. Clear visual screenshots and bulleted takeaways." required>
+          </div>
+          <div class="form-field">
+            <label for="new-ex-tip">Intern Insider Tip:</label>
+            <input type="text" id="new-ex-tip" class="form-control" placeholder="e.g. Keep slides under 8 pages and practice 10 min before standup." required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="secondary-btn" data-modal="modal-add-example">Cancel</button>
+          <button type="submit" class="primary-btn">Add to Benchmark Library</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: MANAGER ADD CONTACT ==================== -->
+  <div id="modal-add-contact" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>➕ Add Team Contact (Manager Creator)</h3>
+        <button class="modal-close" data-modal="modal-add-contact">&times;</button>
+      </div>
+      <form id="form-create-contact">
+        <div class="modal-body">
+          <div class="form-field">
+            <label for="new-c-name">Full Name:</label>
+            <input type="text" id="new-c-name" class="form-control" placeholder="e.g. David Chen" required>
+          </div>
+          <div class="form-field">
+            <label for="new-c-role">Role / Department:</label>
+            <input type="text" id="new-c-role" class="form-control" placeholder="e.g. Senior QA Engineer" required>
+          </div>
+          <div class="form-field">
+            <label for="new-c-duty">Responsibility Area (Approach for):</label>
+            <input type="text" id="new-c-duty" class="form-control" placeholder="e.g. Test Environments, Bug Reporting" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="secondary-btn" data-modal="modal-add-contact">Cancel</button>
+          <button type="submit" class="primary-btn">Add to Directory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 4: DESIGN THINKING REPORT ==================== -->
+  <div id="modal-report" class="modal-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="modal-window modal-wide">
+      <div class="modal-header">
+        <h3>📋 Design Thinking & SCAMPER Case Study Summary</h3>
+        <button class="modal-close" data-modal="modal-report">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="report-box">
+          <h4>How the 5 Stages & SCAMPER Produced This Tool:</h4>
+          <ul class="report-list">
+            <li><strong>1. Empathize:</strong> 13 in-depth interview findings proved that interns understand their role, but lack day-to-day workflow clarity, hesitate to ask "obvious" questions, experience conflicting advice, and rely on past completed examples as their #1 resource.</li>
+            <li><strong>2. Define:</strong> Scoped problem statement on visibility into workflows, responsibilities, and resources.</li>
+            <li><strong>3. SCAMPER Ideation:</strong>
+              <ul>
+                <li><em>Substitute:</em> Replaced human hesitation with a private AI assistant.</li>
+                <li><em>Combine:</em> Merged checklist + contacts + examples into one workspace.</li>
+                <li><em>Adapt:</em> Progressive reveal (Day 1 / Day 3 / Week 2) avoiding info dumps.</li>
+                <li><em>Modify/Magnify:</em> Elevated completed work into a prominent benchmark gallery.</li>
+                <li><em>Eliminate:</em> Auto-tagged tasks and contacts with explicit responsibility areas.</li>
+                <li><em>Reverse:</em> Flipped mentor check-ins so mentors are prompted to reach out first.</li>
+              </ul>
+            </li>
+            <li><strong>4. Prototype:</strong> This standalone digital tool ("InternHub") with an added Manager Customizer mode for continuous improvement.</li>
+            <li><strong>5. Testing:</strong> Usability feedback collected directly from friends and peers via the built-in feedback module!</li>
+          </ul>
+          <p class="text-muted">Full academic case study is documented in <code>DESIGN_THINKING_REPORT.md</code> in your workspace.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="secondary-btn" data-modal="modal-report">Close</button>
+        <button class="primary-btn" onclick="window.print()">Print Documentation (PDF)</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
