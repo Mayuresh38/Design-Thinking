@@ -12,3 +12,9 @@ desktop.ini
 # Antigravity / Gemini artifacts
 .gemini/
 .agents/
+
+# Presentation materials
+presentation.*
+generate_presentation.py
+PRESENTATION_SLIDES.md
+assets/presentation/
