@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "n_samples": 100,
+    "model_type": "Random Forest & Logistic Regression Ensemble",
+    "accuracy": 0.92,
+    "precision": 1.0,
+    "recall": 0.7143,
+    "f1_score": 0.8333,
+    "confusion_matrix": [
+      [
+        18,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ]
+  },
+  "feature_importances": {
+    "has_completed_examples": 0.268,
+    "conflicting_instructions": 0.124,
+    "workflow_clarity": 0.233,
+    "hesitation_score": 0.237,
+    "mentor_sync_freq": 0.137
+  },
+  "logistic_coefficients": {
+    "intercept": -2.1458,
+    "features": {
+      "has_completed_examples": -1.8365,
+      "conflicting_instructions": 0.9324,
+      "workflow_clarity": -1.5174,
+      "hesitation_score": 1.6289,
+      "mentor_sync_freq": -0.6431
+    }
+  },
+  "eda_summary": {
+    "avg_friction_with_examples": 3.03,
+    "avg_friction_without_examples": 6.17,
+    "friction_reduction_pct": 50.9,
+    "avg_days_saved_with_benchmarks": 4.3,
+    "bottleneck_counts": {
+      "Conflicting Guidance from Leads": 40,
+      "Fear of Obvious Questions & Guesswork": 22,
+      "Unclear Day-to-Day Workflow": 15,
+      "Tool Setup & File Access": 12,
+      "Delayed Mentor Access / Blockers": 11
+    },
+    "role_distribution": {
+      "Software Engineering": 41,
+      "Data & ML": 22,
+      "Product Ops": 15,
+      "UI/UX Design": 13,
+      "Marketing Tech": 9
+    }
+  }
+}
